@@ -9,25 +9,28 @@ const App = () => {
   return (
     <div class="form-container">
       <form class="register-form">
+
+        {/* <div class="success-message">Success! Thank you for registering</div> */}
+
         <TextInput
           id="first-name"
           name="firstName"
           placeholder="First Name"
-          tooltip="Enter your first name"
+          title="Enter your first name"
         />
 
         <TextInput
           id="last-name"
           name="lastName"
           placeholder="Last Name"
-          tooltip="Enter your last name"
+          title="Enter your last name"
         />
 
         <TextInput
           id="email"
           name="email"
           placeholder="Email"
-          tooltip="Enter your email address"
+          title="Enter your email address"
         />
 
         <button class="form-field" type="submit" title="Submit registration form">
@@ -49,8 +52,10 @@ const TextInput = props => {
       id={props.id}
       name={props.name}
       placeholder={props.placeholder}
-      title={props.tooltip}
+      title={props.title}
     />
+
+    /* <span id={props.id + '-error'}>{props.title}</span> */
   );
 };
 
