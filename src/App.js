@@ -6,6 +6,17 @@ import './index.css';
  * Main component that comprises of the React Form
  */
 const App = () => {
+
+  // `useState(initialValue)` takes in an argument to set the initial state
+  // ... it then returns a reference to the state and 
+  // ... and function to allow changing the state at a later stage 
+  const [values, setValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+
+  
   return (
     <div class="form-container">
       <form class="register-form">
