@@ -43,7 +43,10 @@ const App = () => {
 };
 
 
-
+/**
+ * TextInput component that defines the input
+ * along with the associated error message
+ */
 const TextInput = props => {
   return (
     <input
