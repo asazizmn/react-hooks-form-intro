@@ -10,7 +10,7 @@ const App = () => {
   // `useState(initialValue)` takes in an argument to set the initial state
   // ... it then returns a reference to the state and 
   // ... and function to allow changing the state at a later stage 
-  const [values, setValues] = useState({
+  const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
     email: ''
@@ -28,6 +28,7 @@ const App = () => {
           name="firstName"
           placeholder="First Name"
           title="Enter your first name"
+          value={values.firstName}
         />
 
         <TextInput
@@ -35,6 +36,7 @@ const App = () => {
           name="lastName"
           placeholder="Last Name"
           title="Enter your last name"
+          value={values.lastName}
         />
 
         <TextInput
@@ -42,6 +44,7 @@ const App = () => {
           name="email"
           placeholder="Email"
           title="Enter your email address"
+          value={values.email}
         />
 
         <button class="form-field" type="submit" title="Submit registration form">
@@ -67,6 +70,7 @@ const TextInput = props => {
       name={props.name}
       placeholder={props.placeholder}
       title={props.title}
+      value={props.value}
     />
 
     /* <span id={props.id + '-error'}>{props.title}</span> */
