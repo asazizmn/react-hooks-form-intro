@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
 
 
@@ -10,7 +10,7 @@ const App = () => {
   // `useState(initialValue)` takes in an argument to set the initial state
   // ... it then returns a reference to the state and 
   // ... and function to allow changing the state at a later stage 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     firstName: '',
     lastName: '',
     email: ''
@@ -18,18 +18,36 @@ const App = () => {
 
   
   return (
-    <div class="form-container">
-      <form class="register-form">
+    <div className="form-container">
+      <form className="register-form">
 
         {/* <div class="success-message">Success! Thank you for registering</div> */}
 
-        <TextInput
+        <input
+          type="text"
+          className="form-field"
+          id="first-name"
+          name="firstName"
+          placeholder="Enter First Name"
+          title="Enter your first name"
+          // value={values.firstName}
+          // value={values.firstName}
+          // onChange={(event) => setValues['firstName'] = event.target.value}
+          // onChange={(event) => {
+          //   console.log('in state: ', setValues.firstName);
+          //   console.log('target.value: ', event.target.value);
+          //   }}
+        />
+
+
+        {/* <TextInput
           id="first-name"
           name="firstName"
           placeholder="First Name"
           title="Enter your first name"
           value={values.firstName}
-        />
+          setValues={setValues}
+        /> */}
 
         <TextInput
           id="last-name"
@@ -47,7 +65,7 @@ const App = () => {
           value={values.email}
         />
 
-        <button class="form-field" type="submit" title="Submit registration form">
+        <button className="form-field" type="submit" title="Submit registration form">
           Register
         </button>
 
@@ -65,12 +83,13 @@ const TextInput = props => {
   return (
     <input
       type="text"
-      class="form-field"
+      className="form-field"
       id={props.id}
       name={props.name}
       placeholder={props.placeholder}
       title={props.title}
       value={props.value}
+      // onChange={() => props.setValues[props.name] = props.value}
     />
 
     /* <span id={props.id + '-error'}>{props.title}</span> */
