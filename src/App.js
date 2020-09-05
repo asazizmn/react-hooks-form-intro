@@ -66,29 +66,28 @@ const App = () => {
  */
 const TextInput = props => {
 
-
   /* onChange event handler to ensure that new values are updated in the state */
   const handleChange = event => {
 
-    // to be used with asynchronous event handling
+    // if `event.target.*` was used direclty within the callback
+    // this would be required due to the asynchronous event handling
+    // and to avoid even being "pooled"
     // event.persist();
 
+    // this approach is better for performance
+    // instead of trying to hold up `event` for callback use through `event.persist`
     const name = event.target.name;
     const value = event.target.value;
 
-    props.setValues(oldValues => {
-
-      const newValues = {
-        ...oldValues,
-        [name]: value
-      }
-
-      console.log('the previous state is merged with new state', newValues);
-
-      return newValues;
-
-    });
-  }
+    // the fat arrow function is builing a new values object for the state
+    // ... and the resulting object literal is implicitly being returned to `setValues`
+    // please note that without the paranthesis around the object literal, 
+    // ... the braces would be mistaken for the function body!
+    props.setValues(oldValues => ({
+      ...oldValues,
+      [name]: value
+    }));
+  };
 
 
   return (
