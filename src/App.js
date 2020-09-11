@@ -10,18 +10,41 @@ const App = () => {
   // `useState(initialValue)` takes in an argument to set the initial state
   // ... it then returns a reference to the state and 
   // ... and function to allow changing the state at a later stage 
+
+  // manage state of form fields
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
     email: ''
   });
 
+  // manage form submission success
+  // pls nt that normally this would be the result of response 'ok' (i.e. 200)
+  // however, in this case, this is only a simulation as there is no API calls involved
+  const [success, setSuccess] = useState(false);
+
+
+  // form submission handler
+  const handleSubmit = event => {
+
+    // by original default behaviour of onSubmit causes the entire page to refresh
+    // ... to prevent this and then be able to view the displayed message
+    event.preventDefault();
+
+    // normally this would only be set as a result of submission response 'OK',
+    // however to simplify things, we assume that response has "arrived"
+    setSuccess(true);
+  };
+
 
   return (
     <div className="form-container">
-      <form className="register-form">
+      <form className="register-form" onSubmit={handleSubmit}>
 
-        {/* <div class="success-message">Success! Thank you for registering</div> */}
+        {
+          // simulated to show once submission response is 'ok' (200)
+          success && <div class="success-message">Success! Thank you for registering</div>
+        }
 
         <TextInput
           id="first-name"
