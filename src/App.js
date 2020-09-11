@@ -53,6 +53,7 @@ const App = () => {
           title="Enter your first name"
           value={values.firstName}
           setValues={setValues}
+          disabled={success}
         />
 
         <TextInput
@@ -62,6 +63,7 @@ const App = () => {
           title="Enter your last name"
           value={values.lastName}
           setValues={setValues}
+          disabled={success}
         />
 
         <TextInput
@@ -71,7 +73,9 @@ const App = () => {
           title="Enter your email address"
           value={values.email}
           setValues={setValues}
+          disabled={success}
         />
+
 
         <button className="form-field" type="submit" title="Submit registration form">
           Register
@@ -123,6 +127,7 @@ const TextInput = props => {
       title={props.title}
       value={props.value}
       onChange={handleChange}
+      disabled={props.disabled}
     />
 
     /* <span id={props.id + '-error'}>{props.title}</span> */
