@@ -20,14 +20,14 @@ const App = () => {
 
   // manage form submission success
   // pls nt that normally this would be the result of response 'ok' (i.e. 200)
-  // however, in this case, this is only a simulation as there is no API calls involved
+  // however, in this program, this is only a simulation as there are no API calls involved
   const [success, setSuccess] = useState(false);
 
 
   // form submission handler
   const handleSubmit = event => {
 
-    // by original default behaviour of onSubmit causes the entire page to refresh
+    // original default behaviour of onSubmit causes the entire page to refresh
     // ... to prevent this and then be able to view the displayed message
     event.preventDefault();
 
@@ -37,6 +37,9 @@ const App = () => {
   };
 
 
+  /** 
+   * this is rendered as html and returned to the frontend
+   */
   return (
     <div className="form-container">
       <form className="register-form" onSubmit={handleSubmit}>
