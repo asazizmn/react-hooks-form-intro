@@ -45,9 +45,12 @@ const App = () => {
   const handleSubmit = event => {
 
     // [DEBUG] ////////////////////////////
-    console.log('entered handleSubmit');
+    // console.log('entered handleSubmit');
     ////////////////////////////////////////////////////
 
+    // original default behaviour of onSubmit causes the entire page to refresh
+    // ... to prevent this and then be able to view the displayed message
+    event.preventDefault();
 
     // setSubmitted((!values.firstName || !values.lastName || !values.email) ? false : true);
     setSubmitted(true);
@@ -55,17 +58,11 @@ const App = () => {
     // when all fields are valid set as successful
     setSuccess(!!(values.firstName && values.lastName && values.email));
 
-
     // [DEBUG] ////////////////////////////
-    console.log('[success]', success);
-    console.log('[submitted]', submitted);
-    console.log('exiting handleSubmit');
+    // console.log('[success]', success);
+    // console.log('[submitted]', submitted);
+    // console.log('exiting handleSubmit');
     ////////////////////////////////////////////////////
-
-
-    // original default behaviour of onSubmit causes the entire page to refresh
-    // ... to prevent this and then be able to view the displayed message
-    event.preventDefault();
   };
 
   // ??????????? What for ??????????????
@@ -167,14 +164,10 @@ const TextInput = props => {
       ...oldValues,
       [name]: value
     }));
-
+    
 
     // reset the form submission state to allow for next submission
     props.setSubmitted(false);
-    
-    // if(props.submitted && !props.value) props.setSubmitted(true);
-
-    // !!!!!!!!!!!!!!!!! you'll have to change valid state to capture  all three fields in order to behave independantly !!!!!!!!!!!
   };
 
 
