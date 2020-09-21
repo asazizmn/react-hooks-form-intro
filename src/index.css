@@ -34,7 +34,8 @@ code {
 }
 
 .success-message {
-  background-color: #3f89f8;
+  /* background-color: #3f89f8; */
+  background-color: #4caf50;
   padding: 15px;
   color: white;
 }
@@ -62,7 +63,8 @@ input {
 }
 
 button {
-  background: #4caf50;
+  /* background: #4caf50; */
+  background: #3f89f8;
   color: white;
   cursor: pointer;
 }
