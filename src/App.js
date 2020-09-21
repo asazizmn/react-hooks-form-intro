@@ -80,11 +80,6 @@ const App = () => {
     <div className="form-container">
       <form className="register-form" onSubmit={handleSubmit}>
 
-        {
-          // simulated to show once submission response is 'ok' (200)
-          submitted && success && <div className="success-message">Success! Thank you for registering</div>
-        }
-
         <TextInput
           id="first-name"
           name="firstName"
@@ -94,7 +89,6 @@ const App = () => {
           setValues={setValues}
           submitted={submitted}
           setSubmitted={setSubmitted}
-          // success={success}
         />
 
         <TextInput
@@ -106,7 +100,6 @@ const App = () => {
           setValues={setValues}
           submitted={submitted}
           setSubmitted={setSubmitted}
-          // success={success}
         />
 
         <TextInput
@@ -118,12 +111,15 @@ const App = () => {
           setValues={setValues}
           submitted={submitted}
           setSubmitted={setSubmitted}
-          // success={success}
         />
 
-        <button className="form-field" type="submit" title="Submit registration form">
-          Register
-        </button>
+        {
+          // simulation to show "register" button vs "success" message
+          // normally depending on  whether submission response is 'ok' (200) or not
+          submitted && success ? 
+            <div className="success-message">Success! Thank you for registering.</div> :
+            <button className="form-field" type="submit" title="Submit registration form">Register</button>
+        }
 
       </form>
     </div>
@@ -164,10 +160,10 @@ const TextInput = props => {
       ...oldValues,
       [name]: value
     }));
-    
+
 
     // reset the form submission state to allow for next submission
-    props.setSubmitted(false);
+    if (props.submitted) props.setSubmitted(false);
   };
 
 
@@ -190,9 +186,6 @@ const TextInput = props => {
       />
 
       {
-
-
-
         // `props.submitted` assumes that the values are valid as well!
         // props.submitted && !props.success && <span id={props.id + '-error'}>{props.title}</span>
         props.submitted && !props.value && <span id={props.id + '-error'}>{props.title}</span>
