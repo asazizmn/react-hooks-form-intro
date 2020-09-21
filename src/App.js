@@ -1,8 +1,8 @@
-/**
+/***
  * App.js | react-hooks-form-intro
  * - a simple react based registration form (no API calls made)
- * - once the form has been submitted, it willb e validated
- * - a succesful submission is the result of a valid submission
+ * - once the form has been submitted, it will be validated
+ * - an overall valid submission results in a successful submission
  */
 
 
@@ -28,38 +28,50 @@ const App = () => {
     email: ''
   });
 
-  // represents the form's submission state, whether valid or invalid
+  // represents the form's submission state, 
+  // ... as in whether or not the button has been pressed, valid or invalid
+  // ... so it does not necessarily mean a successful submission
   const [submitted, setSubmitted] = useState(false);
 
-  // represents the form's validity state
-  // it is only taken into consideration after user has tried to submit form
-  const [valid, setValid] = useState(false);
+  // represents the form's overall validity state
+  // it is only taken into consideration after user has tried to submit the form
+  const [success, setSuccess] = useState(false);
 
 
-  // form submission handler
+  /*
+   * form submission handler
+   * defines the actions to happen when the register button is pressed
+   */
   const handleSubmit = event => {
 
     // [DEBUG] ////////////////////////////
     console.log('entered handleSubmit');
-    //////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+
+    // setSubmitted((!values.firstName || !values.lastName || !values.email) ? false : true);
+    setSubmitted(true);
+
+    // when all fields are valid set as successful
+    setSuccess(!!(values.firstName && values.lastName && values.email));
+
+
+    // [DEBUG] ////////////////////////////
+    console.log('[success]', success);
+    console.log('[submitted]', submitted);
+    console.log('exiting handleSubmit');
+    ////////////////////////////////////////////////////
+
 
     // original default behaviour of onSubmit causes the entire page to refresh
     // ... to prevent this and then be able to view the displayed message
     event.preventDefault();
-
-    setSubmitted(true);
-    setValid(!!(values.firstName && values.lastName && values.email))
-
-    // [DEBUG] //////////////////////////////////////////
-    console.log('[valid]', valid);
-    console.log('[submitted]', submitted);
-    console.log('exiting handleSubmit');
-    ////////////////////////////////////////////////////
   };
 
-  useEffect(() => console.log(valid), [valid])
+  // ??????????? What for ??????????????
+  // useEffect(() => console.log(success), [success])
 
-  // once the values have been confirmed as "valid", "submission" is successful
+  // once the values have been confirmed as valid, "submission" is a "success"
   // pls nt that here we just check for truthy or falsy values
   // proper validation for each field type is outside the scope of this tutorial
   // const isValid = !!(values.firstName && values.lastName && values.email);
@@ -73,7 +85,7 @@ const App = () => {
 
         {
           // simulated to show once submission response is 'ok' (200)
-          submitted && valid && <div className="success-message">Success! Thank you for registering</div>
+          submitted && success && <div className="success-message">Success! Thank you for registering</div>
         }
 
         <TextInput
@@ -84,7 +96,8 @@ const App = () => {
           value={values.firstName}
           setValues={setValues}
           submitted={submitted}
-          valid={valid}
+          setSubmitted={setSubmitted}
+          // success={success}
         />
 
         <TextInput
@@ -95,7 +108,8 @@ const App = () => {
           value={values.lastName}
           setValues={setValues}
           submitted={submitted}
-          valid={valid}
+          setSubmitted={setSubmitted}
+          // success={success}
         />
 
         <TextInput
@@ -106,7 +120,8 @@ const App = () => {
           value={values.email}
           setValues={setValues}
           submitted={submitted}
-          valid={valid}
+          setSubmitted={setSubmitted}
+          // success={success}
         />
 
         <button className="form-field" type="submit" title="Submit registration form">
@@ -129,12 +144,17 @@ const TextInput = props => {
   /* onChange event handler to ensure that new values are updated in the state */
   const handleChange = event => {
 
-    // if `event.target.*` was used direclty within the callback
-    // this would be required due to the asynchronous event handling
-    // and to avoid even being "pooled"
+    // since we are saving target values into separate variables to be reused
+    // `event.persist` is not required
     // event.persist();
+    
+    // however, if `event.target.*` was used direclty within the upcoming callback
+    // ... `event.persist()` would be required
+    // ... to retain the event target and avoid Synthetic Event being "pooled"
+    // ... and as a result the event.target.* being nullified by React
+    // ref:- https://medium.com/trabe/react-syntheticevent-reuse-889cd52981b6
 
-    // this approach is better for performance
+    // however, this approach of saving into variables is better for performance
     // instead of trying to hold up `event` for callback use through `event.persist`
     const name = event.target.name;
     const value = event.target.value;
@@ -147,6 +167,14 @@ const TextInput = props => {
       ...oldValues,
       [name]: value
     }));
+
+
+    // reset the form submission state to allow for next submission
+    props.setSubmitted(false);
+    
+    // if(props.submitted && !props.value) props.setSubmitted(true);
+
+    // !!!!!!!!!!!!!!!!! you'll have to change valid state to capture  all three fields in order to behave independantly !!!!!!!!!!!
   };
 
 
@@ -164,13 +192,17 @@ const TextInput = props => {
         placeholder={props.placeholder}
         title={props.title}
         value={props.value}
-        disabled={props.valid}
+        disabled={props.submitted && props.value}
         onChange={handleChange}
       />
 
       {
+
+
+
         // `props.submitted` assumes that the values are valid as well!
-        props.submitted && !props.valid && <span id={props.id + '-error'}>{props.title}</span>
+        // props.submitted && !props.success && <span id={props.id + '-error'}>{props.title}</span>
+        props.submitted && !props.value && <span id={props.id + '-error'}>{props.title}</span>
       }
     </>
   );
