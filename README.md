@@ -1,3 +1,6 @@
+![Project Screenshot](/public/screenshot.png)
+
+
 # React Hooks Form Intro
 Another beginner React project that experiments with building a basic form using hooks. It looks into managing form state, validation and submission handling. The single page application environment was bootstrapped using `create-react-app` and builds a simple form that provides realtime validation feedback. 
 
