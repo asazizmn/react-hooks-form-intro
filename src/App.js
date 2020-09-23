@@ -163,7 +163,7 @@ const App = () => {
           // simulation to show "register" button vs "success" message
           // normally depending on  whether submission response is 'ok' (200) or not
           submitted && success ? 
-            <div className="success-message">Success! Thank you for registering.</div> :
+            <div className="success-message fade-in">Success! Thank you for registering.</div> :
             <button className="form-field" type="submit" title="Submit registration form">Register</button>
         }
 
@@ -201,7 +201,7 @@ const TextInput = props => {
       {
         // `props.submitted` assumes that the values are valid as well!
         // props.submitted && !props.success && <span id={props.id + '-error'}>{props.title}</span>
-        props.submitted && !props.value && <span id={props.id + '-error'}>{props.title}</span>
+        props.submitted && !props.value && <span id={props.id + '-error'} className="fade-in">{props.title}</span>
       }
     </>
   );
