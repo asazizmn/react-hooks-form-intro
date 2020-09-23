@@ -3,11 +3,17 @@
  * - a simple react based registration form (no API calls made)
  * - once the form has been submitted, it will be validated
  * - an overall valid submission results in a successful submission
+ * 
+ * Pls Nt
+ * - This app would normally require an API call.
+ *   However, that is out side the scope of this project
+ * - All state variables are currenlty shared through `props`.
+ *   However, normally a global variable would be shared through Context API instead
  */
 
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 
 
@@ -65,6 +71,42 @@ const App = () => {
     ////////////////////////////////////////////////////
   };
 
+  
+  /* onChange event handler to ensure that new values are updated in the state */
+  const handleChange = event => {
+
+    // [DEBUG] ////////////////////////////
+    // console.log('entered handleChange');
+    ////////////////////////////////////////////////////
+
+    // since we are saving target values into separate variables to be reused
+    // `event.persist` is not required
+    // event.persist();
+    
+    // however, if `event.target.*` was used direclty within the upcoming callback
+    // ... `event.persist()` would be required
+    // ... to retain the event target and avoid Synthetic Event being "pooled"
+    // ... and as a result the event.target.* being nullified by React
+    // ref:- https://medium.com/trabe/react-syntheticevent-reuse-889cd52981b6
+
+    // however, this approach of saving into variables is better for performance
+    // instead of trying to hold up `event` for callback use through `event.persist`
+    const name = event.target.name;
+    const value = event.target.value;
+
+    // the fat arrow function is builing a new values object for the state
+    // ... and the resulting object literal is implicitly being returned to `setValues`
+    // please note that without the paranthesis around the object literal, 
+    // ... the braces would be mistaken for the function body!
+    setValues(oldValues => ({
+      ...oldValues,
+      [name]: value
+    }));
+
+    // reset the form submission state to allow for next submission
+    // if (submitted) setSubmitted(false);
+  };
+
   // ??????????? What for ??????????????
   // useEffect(() => console.log(success), [success])
 
@@ -80,15 +122,19 @@ const App = () => {
     <div className="form-container">
       <form className="register-form" onSubmit={handleSubmit}>
 
+        {
+          // please note that this application shares variables via `props`
+          // however, global variables would make more sense to be shared through Context API
+        }
         <TextInput
           id="first-name"
           name="firstName"
           placeholder="First Name"
           title="Enter your first name"
           value={values.firstName}
-          setValues={setValues}
-          submitted={submitted}
-          setSubmitted={setSubmitted}
+          submitted={submitted} // should have used Context API instead
+          success={success} // should have used Context API instead
+          handleChange={handleChange}
         />
 
         <TextInput
@@ -97,9 +143,9 @@ const App = () => {
           placeholder="Last Name"
           title="Enter your last name"
           value={values.lastName}
-          setValues={setValues}
-          submitted={submitted}
-          setSubmitted={setSubmitted}
+          submitted={submitted} // should have used Context API instead
+          success={success} // should have used Context API instead
+          handleChange={handleChange}
         />
 
         <TextInput
@@ -108,9 +154,9 @@ const App = () => {
           placeholder="Email"
           title="Enter your email address"
           value={values.email}
-          setValues={setValues}
-          submitted={submitted}
-          setSubmitted={setSubmitted}
+          submitted={submitted} // should have used Context API instead
+          success={success} // should have used Context API instead
+          handleChange={handleChange}
         />
 
         {
@@ -133,40 +179,6 @@ const App = () => {
  * along with the associated error message
  */
 const TextInput = props => {
-
-  /* onChange event handler to ensure that new values are updated in the state */
-  const handleChange = event => {
-
-    // since we are saving target values into separate variables to be reused
-    // `event.persist` is not required
-    // event.persist();
-    
-    // however, if `event.target.*` was used direclty within the upcoming callback
-    // ... `event.persist()` would be required
-    // ... to retain the event target and avoid Synthetic Event being "pooled"
-    // ... and as a result the event.target.* being nullified by React
-    // ref:- https://medium.com/trabe/react-syntheticevent-reuse-889cd52981b6
-
-    // however, this approach of saving into variables is better for performance
-    // instead of trying to hold up `event` for callback use through `event.persist`
-    const name = event.target.name;
-    const value = event.target.value;
-
-    // the fat arrow function is builing a new values object for the state
-    // ... and the resulting object literal is implicitly being returned to `setValues`
-    // please note that without the paranthesis around the object literal, 
-    // ... the braces would be mistaken for the function body!
-    props.setValues(oldValues => ({
-      ...oldValues,
-      [name]: value
-    }));
-
-
-    // reset the form submission state to allow for next submission
-    if (props.submitted) props.setSubmitted(false);
-  };
-
-
   return (
 
     // these "fragments" (<>...</>) are necessary here 
@@ -181,8 +193,9 @@ const TextInput = props => {
         placeholder={props.placeholder}
         title={props.title}
         value={props.value}
-        disabled={props.submitted && props.value}
-        onChange={handleChange}
+        disabled={props.success}
+        // disabled={props.submitted && props.value}
+        onChange={props.handleChange}
       />
 
       {
