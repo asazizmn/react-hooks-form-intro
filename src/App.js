@@ -12,7 +12,7 @@
  */
 
 
-
+ 
 import React, { useState } from 'react';
 import './index.css';
 
@@ -38,29 +38,29 @@ const App = () => {
   // ... as in whether or not the button has been pressed, valid or invalid
   // ... so it does not necessarily mean a successful submission
   const [submitted, setSubmitted] = useState(false);
-
+  
   // represents the form's overall validity state
   // it is only taken into consideration after user has tried to submit the form
   const [success, setSuccess] = useState(false);
-
-
+  
+  
   /*
-   * form submission handler
-   * defines the actions to happen when the register button is pressed
-   */
+  * form submission handler
+  * defines the actions to happen when the register button is pressed
+  */
   const handleSubmit = event => {
 
     // [DEBUG] ////////////////////////////
     // console.log('entered handleSubmit');
     ////////////////////////////////////////////////////
-
+    
     // original default behaviour of onSubmit causes the entire page to refresh
     // ... to prevent this and then be able to view the displayed message
     event.preventDefault();
-
+    
     // setSubmitted((!values.firstName || !values.lastName || !values.email) ? false : true);
     setSubmitted(true);
-
+    
     // when all fields are valid set as successful
     setSuccess(!!(values.firstName && values.lastName && values.email));
 
@@ -104,12 +104,10 @@ const App = () => {
     }));
 
     // reset the form submission state to allow for next submission
-    // if (submitted) setSubmitted(false);
+    // ... when all the values are finally valid
+    if (!!(values.firstName && values.lastName && values.email)) setSubmitted(false);
   };
-
-  // ??????????? What for ??????????????
-  // useEffect(() => console.log(success), [success])
-
+  
   // once the values have been confirmed as valid, "submission" is a "success"
   // pls nt that here we just check for truthy or falsy values
   // proper validation for each field type is outside the scope of this tutorial
@@ -126,6 +124,7 @@ const App = () => {
           // please note that this application shares variables via `props`
           // however, global variables would make more sense to be shared through Context API
         }
+
         <TextInput
           id="first-name"
           name="firstName"
@@ -163,8 +162,8 @@ const App = () => {
           // simulation to show "register" button vs "success" message
           // normally depending on  whether submission response is 'ok' (200) or not
           submitted && success ? 
-            <div className="success-message fade-in">Success! Thank you for registering.</div> :
-            <button className="form-field" type="submit" title="Submit registration form">Register</button>
+            (<div className="success-message fade-in">Success! Thank you for registering.</div>) :
+            (<button className="form-field" type="submit" title="Submit registration form" disabled={submitted && !success}>Register</button>)
         }
 
       </form>

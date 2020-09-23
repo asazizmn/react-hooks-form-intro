@@ -115,5 +115,6 @@ button {
 
 button:disabled {
   cursor: default;
+  background-color: lightgray;
 }
 
