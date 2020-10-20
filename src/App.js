@@ -25,7 +25,7 @@ const App = () => {
 
   // `useState(initialValue)` takes in an argument to set the initial state
   // ... it then returns a reference to the state 
-  // ... and function to allow changing the state at a later stage 
+  // ... and a function to allow changing the state at a later stage 
 
   // manage state of form fields
   const [values, setValues] = useState({
