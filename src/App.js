@@ -96,7 +96,7 @@ const App = () => {
 
     // the fat arrow function is building a new values object for the state
     // ... and the resulting object literal is implicitly being returned to `setValues`
-    // please note that without the paranthesis around the object literal, 
+    // please note that without the parenthesis around the object literal, 
     // ... the braces would be mistaken for the function body!
     setValues(oldValues => ({
       ...oldValues,
