@@ -94,7 +94,7 @@ const App = () => {
     const name = event.target.name;
     const value = event.target.value;
 
-    // the fat arrow function is builing a new values object for the state
+    // the fat arrow function is building a new values object for the state
     // ... and the resulting object literal is implicitly being returned to `setValues`
     // please note that without the paranthesis around the object literal, 
     // ... the braces would be mistaken for the function body!
